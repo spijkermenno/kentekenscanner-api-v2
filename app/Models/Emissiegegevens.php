@@ -47,7 +47,8 @@ class Emissiegegevens extends Model
         'klasse_hybride_elektrisch_voertuig',
         'opgegeven_maximum_snelheid',
         'uitlaatemissieniveau',
-        'gekentekende_voertuig_id',
+        'gekentekende_voertuig_id', 
+        'updated_at'
     ];
         protected $table = 'emissiegegevens';
 

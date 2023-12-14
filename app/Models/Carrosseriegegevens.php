@@ -15,7 +15,8 @@ class Carrosseriegegevens extends Model
         'carrosserie_volgnummer',
         'carrosserietype',
         'type_carrosserie_europese_omschrijving',
-        'gekentekende_voertuig_id',
+        'gekentekende_voertuig_id', 
+        'updated_at'
     ];
     
     protected $table = 'carrosseriegegevens';

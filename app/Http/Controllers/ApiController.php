@@ -12,7 +12,7 @@ class ApiController extends Controller
 {
     public function index()
     {
-        $data = GekentekendeVoertuigen::all();
+        $data = GekentekendeVoertuigen::with('carrosserieGegevens', 'emissieGegevens')->get();
         return response()->json($data);
     }
 
@@ -33,13 +33,9 @@ class ApiController extends Controller
             }
         }
 
-        $itemArray = $item->toArray();
+       
 
-        $filteredItemArray = array_filter($itemArray, function ($value) {
-            return $value !== null;
-        });
-
-        return response()->json($filteredItemArray);
+        return response()->json($item);
     }
 
     public function getAllCarrosserieGegevens()

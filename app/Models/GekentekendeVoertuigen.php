@@ -103,6 +103,7 @@ class GekentekendeVoertuigen extends Model
         'aerodynamische_voorziening_of_uitrusting',
         'additionele_massa_alternatieve_aandrijving',
         'verlengde_cabine_indicator',
+        'updated_at'
     ];
     
     protected $table = 'gekentekende_voertuigen';
