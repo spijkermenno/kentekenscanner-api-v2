@@ -19,6 +19,8 @@ class ApiController extends Controller
 
     public function getByKenteken(Request $request, $kenteken)
     {
+        $kenteken = strtoupper($kenteken);
+        
         $item = GekentekendeVoertuigen::with('carrosserieGegevens', 'emissieGegevens')
             ->where('kenteken', $kenteken)
             ->first();
