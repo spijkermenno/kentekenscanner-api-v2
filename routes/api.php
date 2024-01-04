@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\ImageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/api-endpoint', [ApiController::class, 'index']);
 Route::get('/api-endpoint/{kenteken}', [ApiController::class, 'getByKenteken']);
+
+Route::post('/gekentekende-voertuigen/{gekentekendeVoertuigenId}/upload-image', [ImageController::class, 'store']);
+Route::get('/gekentekende-voertuigen/{gekentekendeVoertuigenId}/images', [ImageController::class, 'index']);
 
 Route::get('/carrosserie-gegevens', [ApiController::class, 'getAllCarrosserieGegevens']);
 Route::get('/emissie-gegevens', [ApiController::class, 'getAllEmissieGegevens']);

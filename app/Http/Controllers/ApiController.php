@@ -21,7 +21,7 @@ class ApiController extends Controller
     {
         $kenteken = strtoupper($kenteken);
         
-        $item = GekentekendeVoertuigen::with('carrosserieGegevens', 'emissieGegevens')
+        $item = GekentekendeVoertuigen::with('carrosserieGegevens', 'emissieGegevens', 'images')
             ->where('kenteken', $kenteken)
             ->first();
 
@@ -34,8 +34,6 @@ class ApiController extends Controller
                 return response()->json(['message' => 'Item not found'], 404);
             }
         }
-
-       
 
         return response()->json($item);
     }

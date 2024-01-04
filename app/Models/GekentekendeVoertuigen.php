@@ -119,4 +119,9 @@ class GekentekendeVoertuigen extends Model
     {
         return $this->hasMany(Carrosseriegegevens::class, 'gekentekende_voertuig_id');
     }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class, 'gekentekende_voertuigen_id');
+    }
 }
