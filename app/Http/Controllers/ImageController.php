@@ -49,4 +49,48 @@ class ImageController extends Controller
 
         return response()->json(['message' => 'Image uploaded successfully']);
     }
+
+    public function getUnvalidatedImages()
+    {
+        $unvalidatedImages = Image::where('validated', false)->get();
+        return response()->json(['images' => $unvalidatedImages]);
+    }
+
+    public function getUnvalidatedImagesCount()
+    {
+        $unvalidatedImagesCount = Image::where('validated', false)->count();
+        return response()->json(['count' => $unvalidatedImagesCount]);
+    }
+
+    public function DeleteImage($imageId)
+    {
+        $image = Image::find($imageId);
+
+        if (!$image) {
+            return response()->json(['error' => 'Image not found'], 404);
+        }
+
+        $image->delete();
+
+        $image->save();
+
+        return response()->json(['message' => 'Image validated successfully']);
+    }
+
+    public function validateImage($imageId)
+    {
+        $image = Image::find($imageId);
+
+        if (!$image) {
+            return response()->json(['error' => 'Image not found'], 404);
+        }
+
+        $image->validated = true; 
+
+        $image->save();
+
+        return response()->json(['message' => 'Image validated successfully']);
+
+    }
+
 }

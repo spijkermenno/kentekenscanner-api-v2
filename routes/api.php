@@ -22,3 +22,11 @@ Route::get('/gekentekende-voertuigen/{gekentekendeVoertuigenId}/images', [ImageC
 
 Route::get('/carrosserie-gegevens', [ApiController::class, 'getAllCarrosserieGegevens']);
 Route::get('/emissie-gegevens', [ApiController::class, 'getAllEmissieGegevens']);
+
+// region TODO
+
+// Route::get('/unvalidated-images', [ImageController::class, 'getUnvalidatedImages']);
+// Route::get('/unvalidated-images-count', [ImageController::class, 'getUnvalidatedImagesCount']);
+
+// Route::post('/validate-image/{imageId}', [ImageController::class, 'validateImage']);
+// Route::post('/delete-image/{imageId}', [ImageController::class, 'deleteImage']);
