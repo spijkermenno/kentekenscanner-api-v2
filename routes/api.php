@@ -30,5 +30,5 @@ Route::middleware('admin')->group(function () {
     Route::get('/unvalidated-images-count', [ImageController::class, 'getUnvalidatedImagesCount']);
 
     Route::post('/validate-image/{imageId}', [ImageController::class, 'validateImage']);
-    Route::post('/delete-image/{imageId}', [ImageController::class, 'deleteImage']);
+    Route::delete('/delete-image/{imageId}', [ImageController::class, 'deleteImage']);
 });
