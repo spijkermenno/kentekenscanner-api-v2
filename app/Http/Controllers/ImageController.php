@@ -75,6 +75,11 @@ class ImageController extends Controller
         return response()->json(['count' => $unvalidatedImagesCount]);
     }
 
+    public function getAllImages() {
+        $unvalidatedImagesCount = Image::all();
+        return response()->json(['images' => $unvalidatedImagesCount]);
+    }
+
     public function validateImage($imageId)
     {
         $image = Image::find($imageId);
@@ -84,9 +89,10 @@ class ImageController extends Controller
         }
 
         // Perform validation logic (update the 'validated' field, etc.)
-        $image->update(['validated' => true]);
+        $image->validated = true;
+        $image->save();
 
-        return response()->json(['message' => 'Image approved successfully']);
+        return response()->json(['message' => 'Image approved successfully', 'image' => $image]);
     }
 
     public function deleteImage($imageId)

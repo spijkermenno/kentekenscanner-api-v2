@@ -29,6 +29,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/unvalidated-images-json', [ImageController::class, 'getUnvalidatedImages']);
     Route::get('/validated-images-json', [ImageController::class, 'getValidatedImages']);
     Route::get('/unvalidated-images-count', [ImageController::class, 'getUnvalidatedImagesCount']);
+    Route::get('/images', [ImageController::class, 'getAllImages']);
 
     Route::post('/validate-image/{imageId}', [ImageController::class, 'validateImage']);
     Route::delete('/delete-image/{imageId}', [ImageController::class, 'deleteImage']);
