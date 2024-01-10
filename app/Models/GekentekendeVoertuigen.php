@@ -122,6 +122,6 @@ class GekentekendeVoertuigen extends Model
 
     public function images()
     {
-        return $this->hasMany(Image::class, 'gekentekende_voertuigen_id');
-    }
+        return $this->hasMany(Image::class, 'gekentekende_voertuigen_id')->where('validated', true);
+    }   
 }
