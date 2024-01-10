@@ -27,6 +27,7 @@ Route::get('/emissie-gegevens', [ApiController::class, 'getAllEmissieGegevens'])
 Route::middleware('admin')->group(function () {
     Route::get('/unvalidated-images', [ImageController::class, 'showUnvalidatedImages']);
     Route::get('/unvalidated-images-json', [ImageController::class, 'getUnvalidatedImages']);
+    Route::get('/validated-images-json', [ImageController::class, 'getValidatedImages']);
     Route::get('/unvalidated-images-count', [ImageController::class, 'getUnvalidatedImagesCount']);
 
     Route::post('/validate-image/{imageId}', [ImageController::class, 'validateImage']);
