@@ -53,7 +53,7 @@ class ImageController extends Controller
 
     public function getUnvalidatedImages()
     {
-        $unvalidatedImages = Image::where('validated', false)->get();
+        $unvalidatedImages = Image::with("gekentekendeVoertuigen")->where('validated', false)->get();
         return response()->json(['images' => $unvalidatedImages]);
     }
 
