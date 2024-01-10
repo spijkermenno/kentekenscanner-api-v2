@@ -76,7 +76,7 @@ class ImageController extends Controller
     }
 
     public function getAllImages() {
-        $unvalidatedImagesCount = Image::all();
+        $unvalidatedImagesCount = Image::with("gekentekendeVoertuigen")->get();
         return response()->json(['images' => $unvalidatedImagesCount]);
     }
 
