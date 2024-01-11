@@ -69,11 +69,6 @@ class ImageController extends Controller
 
         return View::make('unvalidated-images', ['unvalidatedImages' => $unvalidatedImages]);
     }
-    public function getUnvalidatedImagesCount()
-    {
-        $unvalidatedImagesCount = Image::where('validated', false)->count();
-        return response()->json(['count' => $unvalidatedImagesCount]);
-    }
 
     public function getAllImages() {
         $unvalidatedImagesCount = Image::with("gekentekendeVoertuigen")->get();
@@ -107,6 +102,24 @@ class ImageController extends Controller
         $image->delete();
 
         return response()->json(['message' => 'Image deleted successfully']);
+    }
+
+    public function getUnvalidatedImagesCount()
+    {
+        $unvalidatedImagesCount = Image::where('validated', false)->count();
+        return response()->json(['count' => $unvalidatedImagesCount]);
+    }
+
+    public function getValidatedImagesCount()
+    {
+        $validatedImagesCount = Image::where('validated', true)->count();
+        return response()->json(['count' => $validatedImagesCount]);
+    }
+
+    public function getImagesCount()
+    {
+        $imageCount = Image::all()->count();
+        return response()->json(['count' => $imageCount]);
     }
 
 }
