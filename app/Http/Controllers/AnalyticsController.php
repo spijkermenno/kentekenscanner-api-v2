@@ -37,4 +37,41 @@ class AnalyticsController extends Controller
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
+
+    public function getEventsByType(Request $request)
+    {
+        $request->validate([
+            'event_name' => 'required|string',
+        ]);
+
+        $eventName = $request->input('event_name');
+
+        $events = AnalyticsEvent::where('event_name', $eventName)->get();
+
+        return response()->json($events);
+    }
+
+    public function getEventsByDate(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        $events = AnalyticsEvent::whereBetween('created_at', [$startDate, $endDate])->get();
+
+        return response()->json($events);
+    }
+
+    public function getEventsForGraph(Request $request)
+    {
+        // Customize this function based on the specific requirements for graph data
+        // This is just a placeholder
+        $events = AnalyticsEvent::all();
+
+        return response()->json($events);
+    }
 }

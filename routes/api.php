@@ -43,4 +43,9 @@ Route::middleware('admin')->group(function () {
 
     Route::post('/track-event', [AnalyticsController::class, 'trackEvent']);
 
+    Route::prefix('analytics')->group(function () {
+        Route::get('events/by-type', [AnalyticsController::class, 'getEventsByType']);
+        Route::get('events/by-date', [AnalyticsController::class, 'getEventsByDate']);
+        Route::get('events/for-graph', [AnalyticsController::class, 'getEventsForGraph']);
+    });
 });
