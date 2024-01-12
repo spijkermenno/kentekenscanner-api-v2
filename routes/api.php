@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\AnalyticsController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,4 +42,5 @@ Route::middleware('admin')->group(function () {
     Route::delete('/delete-image/{imageId}', [ImageController::class, 'deleteImage']);
 
     Route::post('/track-event', [AnalyticsController::class, 'trackEvent']);
+
 });
