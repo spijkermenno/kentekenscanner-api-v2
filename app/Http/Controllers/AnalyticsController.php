@@ -61,10 +61,13 @@ class AnalyticsController extends Controller
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
 
-        $events = AnalyticsEvent::whereBetween('created_at', [$startDate, $endDate])->get();
+        $events = AnalyticsEvent::whereBetween('created_at', [$startDate, $endDate])
+            ->orderBy('created_at', 'desc') // Order by created_at in descending order
+            ->get();
 
         return response()->json($events);
     }
+
 
     public function getEventsForGraph(Request $request)
     {
