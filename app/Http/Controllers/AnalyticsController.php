@@ -29,7 +29,7 @@ class AnalyticsController extends Controller
             AnalyticsEvent::create([
                 'uuid' => $uuid,
                 'event_name' => $eventName,
-                'parameters' => $parameters,
+                'parameters' => json_encode($parameters),
             ]);
 
             return response()->json(['message' => 'Event tracked successfully']);
