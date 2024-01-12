@@ -10,7 +10,7 @@ class CreateAnalyticsEventsTable extends Migration
     {
         Schema::create('analytics_events', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique();
+            $table->uuid('uuid');
             $table->string('event_name');
             $table->json('parameters')->nullable();
             $table->timestamps();
