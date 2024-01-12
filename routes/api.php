@@ -38,4 +38,6 @@ Route::middleware('admin')->group(function () {
 
     Route::post('/validate-image/{imageId}', [ImageController::class, 'validateImage']);
     Route::delete('/delete-image/{imageId}', [ImageController::class, 'deleteImage']);
+
+    Route::post('/track-event', [AnalyticsController::class, 'trackEvent']);
 });
