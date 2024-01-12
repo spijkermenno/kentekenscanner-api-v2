@@ -47,5 +47,6 @@ Route::middleware('admin')->group(function () {
         Route::get('events/by-type', [AnalyticsController::class, 'getEventsByType']);
         Route::get('events/by-date', [AnalyticsController::class, 'getEventsByDate']);
         Route::get('events/for-graph', [AnalyticsController::class, 'getEventsForGraph']);
+        Route::get('events/by-type-and-date', [AnalyticsController::class, 'getEventsByTypeAndDate']);
     });
 });
