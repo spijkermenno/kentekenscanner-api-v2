@@ -17,26 +17,62 @@ class ApiController extends Controller
     }
 
 
-    public function getByKenteken(Request $request, $kenteken)
-    {
-        $kenteken = strtoupper($kenteken);
+    // public function getByKenteken(Request $request, $kenteken)
+    // {
+    //     $kenteken = strtoupper($kenteken);
         
-        $item = GekentekendeVoertuigen::with('carrosserieGegevens', 'emissieGegevens', 'images')
-            ->where('kenteken', $kenteken)
-            ->first();
+    //     $item = GekentekendeVoertuigen::with('carrosserieGegevens', 'emissieGegevens', 'images')
+    //         ->where('kenteken', $kenteken)
+    //         ->first();
 
-        if (!$item) {
-            $newItem = $this->getGekentekendeVoertuigenFromAPI($kenteken);
+    //     if (!$item) {
+    //         $newItem = $this->getGekentekendeVoertuigenFromAPI($kenteken);
 
-            if ($newItem instanceof GekentekendeVoertuigen) {
-               return $this->getByKenteken($request, $kenteken);
-            } else {
-                return response()->json(['message' => 'Item not found'], 404);
-            }
+    //         if ($newItem instanceof GekentekendeVoertuigen) {
+    //            return $this->getByKenteken($request, $kenteken);
+    //         } else {
+    //             return response()->json(['message' => 'Item not found'], 404);
+    //         }
+    //     }
+
+    //     return response()->json($item);
+    // }
+
+    public function getByKenteken(Request $request, $kenteken)
+{
+    $kenteken = strtoupper($kenteken);
+    
+    $item = GekentekendeVoertuigen::with('carrosserieGegevens', 'emissieGegevens', 'images')
+        ->where('kenteken', $kenteken)
+        ->first();
+
+    // Check if item doesn't exist OR if it's older than today
+    if (!$item || $this->isItemOutdated($item)) {
+        $newItem = $this->getGekentekendeVoertuigenFromAPI($kenteken);
+
+        if ($newItem instanceof GekentekendeVoertuigen) {
+            // Reload the item with relationships instead of recursive call
+            $item = GekentekendeVoertuigen::with('carrosserieGegevens', 'emissieGegevens', 'images')
+                ->where('kenteken', $kenteken)
+                ->first();
+                
+            return response()->json($item);
+        } else {
+            return response()->json(['message' => 'Item not found'], 404);
         }
-
-        return response()->json($item);
     }
+
+    return response()->json($item);
+}
+
+/**
+ * Check if the item is older than today
+ */
+private function isItemOutdated($item)
+{
+    // Check if updated_at is older than today (start of today)
+    return $item->updated_at->startOfDay()->lt(now()->startOfDay());
+}
 
     public function getAllCarrosserieGegevens()
     {
