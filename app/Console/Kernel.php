@@ -12,7 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('app:update-gekentekende-voertuigen')->quarterly();//->dailyAt('1:00');
+        $schedule->command('app:update-gekentekende-voertuigen')->dailyAt('1:00');
     }
 
     /**
