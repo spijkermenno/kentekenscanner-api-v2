@@ -123,14 +123,28 @@ private function isItemOutdated($item)
     private function createGekentekendeVoertuigenItem($json) {
         if ($json) {
             $fillableColumns = (new GekentekendeVoertuigen())->getFillable();
-
             $filteredData = array_intersect_key($json[0], array_flip($fillableColumns));
-
-            $gekentekendVoertuig = GekentekendeVoertuigen::create($filteredData);
+            
+            // Extract kenteken for the updateOrCreate condition
+            $kenteken = $filteredData['kenteken'] ?? null;
+            
+            if (!$kenteken) {
+                return null;
+            }
+    
+            // Use updateOrCreate instead of create
+            $gekentekendVoertuig = GekentekendeVoertuigen::updateOrCreate(
+                ['kenteken' => $kenteken], // Find by kenteken
+                $filteredData // Update/Create with this data
+            );
+            
+            // Delete existing related records before creating new ones
+            $gekentekendVoertuig->carrosseriegegevens()->delete();
+            $gekentekendVoertuig->emissiegegevens()->delete();
             
             $carrosserieArray = $this->createCarrosserieGegevensItem($this->getCarrosserieGegevensFromAPI($gekentekendVoertuig->kenteken), $gekentekendVoertuig->id);
             $emissieArray = $this->createEmissieGegevensItem($this->getEmissieGegevensFromAPI($gekentekendVoertuig->kenteken), $gekentekendVoertuig->id);
-
+    
             foreach ($carrosserieArray as $carrosserie) {
                 $carrosserie->gekentekendeVoertuig()->associate($gekentekendVoertuig);
             }
@@ -138,11 +152,13 @@ private function isItemOutdated($item)
             foreach ($emissieArray as $emissie) {
                 $emissie->gekentekendeVoertuig()->associate($gekentekendVoertuig);
             }
-
+    
             $gekentekendVoertuig->save();
     
             return $gekentekendVoertuig;
         }
+        
+        return null;
     }
     
     private function createCarrosserieGegevensItem($json, $gekentekendVoertuigId) {
@@ -150,28 +166,28 @@ private function isItemOutdated($item)
             $fillableColumns = (new Carrosseriegegevens())->getFillable();
             $filteredData = [];
             $createdItems = [];
-
+    
             foreach($json as $item) {
                 $filteredData[] = array_intersect_key($item, array_flip($fillableColumns));
             }
     
-
             foreach($filteredData as $item) {
                 $item["gekentekende_voertuig_id"] = $gekentekendVoertuigId;
-                $createdItems[] = CarrosserieGegevens::create($item);
+                $createdItems[] = Carrosseriegegevens::create($item);
             }
-
+    
             return $createdItems;
         }
+        
+        return [];
     }
-    
+
     private function createEmissieGegevensItem($json, $gekentekendVoertuigId) {
         if ($json) {
             $fillableColumns = (new Emissiegegevens())->getFillable();
-
             $filteredData = [];
             $createdItems = [];
-
+    
             foreach($json as $item) {
                 $filteredData[] = array_intersect_key($item, array_flip($fillableColumns));
             }
@@ -183,5 +199,7 @@ private function isItemOutdated($item)
     
             return $createdItems;
         }
+        
+        return [];
     }
 }
